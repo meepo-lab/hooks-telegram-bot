@@ -45,7 +45,7 @@ jobs:
           ghr: true
           changelog-generator-opt: "emojis=true"
       - run: |
-          gox -parallel 4 -osarch="linux/amd64 linux/arm64 darwin/amd64 darwin/arm64 linux/arm windows/amd64" -ldflags="-extldflags '-static' -s -w -X github.com/ted-vo/hooks-telegram-bot/pkg/hooks.FUVERSION=${{steps.semrel.outputs.version}}" -output="bin/{{.Dir}}_v${{steps.semrel.outputs.version}}_{{.OS}}_{{.Arch}}" ./cmd/hooks-telegram-bot/
+          gox -parallel 4 -osarch="linux/amd64 linux/arm64 darwin/amd64 darwin/arm64 linux/arm windows/amd64" -ldflags="-extldflags '-static' -s -w -X github.com/meepo-lab/hooks-telegram-bot/pkg/hooks.FUVERSION=${{steps.semrel.outputs.version}}" -output="bin/{{.Dir}}_v${{steps.semrel.outputs.version}}_{{.OS}}_{{.Arch}}" ./cmd/hooks-telegram-bot/
           cd bin/ && shasum -a 256 * > ./hooks-telegram-bot_v${{steps.semrel.outputs.version}}_checksums.txt && cd -
         if: steps.semrel.outputs.version != ''
         env:
