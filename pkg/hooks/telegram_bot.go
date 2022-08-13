@@ -15,7 +15,7 @@ type TelegramBot struct {
 }
 
 func (bot *TelegramBot) Init(m map[string]string) error {
-	log.Infof("Init %v, m")
+	log.Infof("Init %v", m)
 	projectName := m["project_name"]
 	token := m["token"]
 	chat_id := m["chat_id"]
