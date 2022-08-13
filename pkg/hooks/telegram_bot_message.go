@@ -38,12 +38,12 @@ type RenderedMessage struct {
 	Format  MessageFmt
 }
 
-func (msg *Message) renderMessage(success bool) RenderedMessage {
-	return RenderedMessage{
-		Message: msg.RawMessage,
-		Format:  msg.Format,
-	}
-}
+// func (msg *Message) renderMessage(success bool) RenderedMessage {
+// return RenderedMessage{
+// Message: msg.RawMessage,
+// Format:  msg.Format,
+// }
+// }
 
 func (msg *Message) SuccessMessage(packageName, newVersion, changelogs string) RenderedMessage {
 	message := DefaultSuccessTemplate(packageName, newVersion, changelogs)

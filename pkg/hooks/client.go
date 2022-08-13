@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 
 	"github.com/apex/log"
@@ -16,8 +16,8 @@ type TGClient struct {
 }
 
 type TGMessageResponse struct {
-	ok     bool            `json:"ok"`
-	result json.RawMessage `json:"result"`
+	Ok     bool            `json:"ok"`
+	Result json.RawMessage `json:"result"`
 }
 
 func (client *TGClient) getUrl() string {
@@ -42,13 +42,15 @@ func (client *TGClient) SendMessage(message RenderedMessage) (bool, error) {
 	defer response.Body.Close()
 	log.Info("Message was sent")
 
-	body, err = ioutil.ReadAll(response.Body)
+	body, err = io.ReadAll(response.Body)
 	if err != nil {
 		return false, err
 	}
 	var jsonBody TGMessageResponse
-	json.Unmarshal(body, &response)
-	log.Infof("Response status: %s", jsonBody.ok)
+	if err := json.Unmarshal(body, &response); err != nil {
+		return false, err
+	}
+	log.Infof("Response status: %s", jsonBody.Ok)
 
-	return jsonBody.ok, nil
+	return jsonBody.Ok, nil
 }

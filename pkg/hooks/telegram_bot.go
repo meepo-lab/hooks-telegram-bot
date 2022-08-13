@@ -51,19 +51,23 @@ func (bot *TelegramBot) Success(config *hooks.SuccessHookConfig) error {
 	newVersion := config.NewRelease.Version
 	log.Infof("old version: " + oldVersion)
 	log.Infof("new Version: " + newVersion)
-	bot.client.SendMessage(bot.message.SuccessMessage(
+	if _, err := bot.client.SendMessage(bot.message.SuccessMessage(
 		bot.repo,
 		newVersion,
-		config.Changelog))
+		config.Changelog)); err != nil {
+		return err
+	}
 	return nil
 }
 
 func (bot *TelegramBot) NoRelease(config *hooks.NoReleaseConfig) error {
 	log.Infof("reason: " + config.Reason.String())
 	log.Infof("message: " + config.Message)
-	bot.client.SendMessage(bot.message.FailMessage(
+	if _, err := bot.client.SendMessage(bot.message.FailMessage(
 		bot.repo,
 		config.Reason.String(),
-		config.Message))
+		config.Message)); err != nil {
+		return err
+	}
 	return nil
 }
