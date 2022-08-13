@@ -1,0 +1,9 @@
+🎉  A <b><i>{{ nextRelease.type }}</i></b> version of <a href='{{ repository_url }}/{{ packageName }}'>{{ packageName }}</a> has been
+released!
+
+📣  Current version is <b>{{ nextRelease.version }}</b>
+
+📝  Custom change log:
+{% for value in commits %}
+  • {{ value.message }} (<a href='{{ repository_url }}/{{ packageName }}/commit/{{ value.commit.long }}'>{{ value.commit.short }}</a>)
+{% endfor %}

@@ -1,0 +1,8 @@
+test/.npmrc
+.semrel/
+scripts/.semrel/
+scripts/test
+scripts/semantic-release
+.dccache
+.DS_Store
+build/

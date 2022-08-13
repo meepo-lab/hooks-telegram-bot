@@ -1,0 +1,9 @@
+🐞 <a href='{{ repository_url }}/{{ packageName }}/pipelines'>Pipeline</a> of <a
+  href='{{ repository_url }}/{{ packageName }}'>{{ packageName }}</a> has been failed.
+
+🚧 An <b><i>error</i></b> occured while trying to publish the new version of <b>{{ nextRelease.version }}</b>.
+<pre><code class="language-javascript">
+{% for error in errors %}
+  • {{ error }}
+{% endfor %}
+</code></pre>
