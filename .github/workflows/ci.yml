@@ -53,5 +53,5 @@ jobs:
       - run: ghr $(cat .ghr) bin/
         if: steps.semrel.outputs.version != ''
         env:
- 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
