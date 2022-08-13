@@ -50,7 +50,7 @@ func (client *TGClient) SendMessage(message RenderedMessage) (bool, error) {
 	if err := json.Unmarshal(body, &response); err != nil {
 		return false, err
 	}
-	log.Infof("Response status: %v", jsonBody.Ok)
+	log.Infof("Response: %v", jsonBody)
 
 	return jsonBody.Ok, nil
 }
