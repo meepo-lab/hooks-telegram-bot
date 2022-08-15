@@ -38,7 +38,6 @@ func (client *TGClient) SendMessage(message RenderedMessage) (bool, error) {
 		"text":       message.Message,
 		"parse_mode": string(message.Format),
 	})
-	log.Infof("Request body: %s", body)
 	response, err := http.Post(url, "application/json", bytes.NewBuffer(body))
 	if err != nil {
 		return false, err
