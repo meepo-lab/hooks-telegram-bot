@@ -18,7 +18,7 @@ type TelegramBot struct {
 }
 
 func (bot *TelegramBot) Init(m map[string]string) error {
-	re := regexp.MustCompile("token:\\S+\\w")
+	re := regexp.MustCompile(`token:\S+\w`)
 	initMap := fmt.Sprintf("Init %v", m)
 	log.Infof(re.ReplaceAllString(initMap, "token:****"))
 	projectName := m["project_name"]
