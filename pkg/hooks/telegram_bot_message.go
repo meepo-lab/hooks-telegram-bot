@@ -46,17 +46,35 @@ type RenderedMessage struct {
 // }
 
 func (msg *Message) SuccessMessage(packageName, newVersion, changelogs string) RenderedMessage {
-	message := defaultSuccessTemplate(packageName, newVersion, changelogs)
+	if len(msg.RawMessage) == 0 {
+		defaultMsg := defaultSuccessTemplate(
+			EscapeSpecialCharacters(packageName),
+			EscapeSpecialCharacters(newVersion),
+			EscapeSpecialCharacters(changelogs))
+
+		msg.RawMessage = defaultMsg.RawMessage
+		msg.Format = defaultMsg.Format
+	}
+
 	return RenderedMessage{
-		Message: message.RawMessage,
-		Format:  message.Format,
+		Message: msg.RawMessage,
+		Format:  msg.Format,
 	}
 }
 
 func (msg *Message) FailMessage(packageName, reason, errMsg string) RenderedMessage {
-	renderedMessage := defaultFailTemplate(packageName, reason, errMsg)
+	if len(msg.RawMessage) == 0 {
+		defaultMsg := defaultFailTemplate(
+			EscapeSpecialCharacters(packageName),
+			EscapeSpecialCharacters(reason),
+			EscapeSpecialCharacters(errMsg))
+
+		msg.RawMessage = defaultMsg.RawMessage
+		msg.Format = defaultMsg.Format
+	}
+
 	return RenderedMessage{
-		Message: renderedMessage.RawMessage,
-		Format:  renderedMessage.Format,
+		Message: msg.RawMessage,
+		Format:  msg.Format,
 	}
 }

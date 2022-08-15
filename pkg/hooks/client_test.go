@@ -11,7 +11,10 @@ func TestClient(t *testing.T) {
 		token:   "5531851450:AAG16F3wWtYKapc07z6_uFM7T4sL4iPs1To",
 		chat_id: "226619698",
 	}
-	msgSuccess := defaultSuccessTemplate("package", EscapeSpecialCharacters("1.0.0"), "\\- Changelog")
+	msgSuccess := defaultSuccessTemplate(
+		"package",
+		EscapeSpecialCharacters("1.0.0"),
+		EscapeSpecialCharacters("- Changelog"))
 	renderedMsg := RenderedMessage{
 		Message: msgSuccess.RawMessage,
 		Format:  msgSuccess.Format,
