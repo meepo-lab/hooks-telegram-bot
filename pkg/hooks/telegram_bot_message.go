@@ -7,8 +7,8 @@ import (
 type MessageFmt string
 
 const (
-	MARKDOWN MessageFmt = "markdown"
-	HTLM     MessageFmt = "html"
+	MARKDOWN MessageFmt = "MarkdownV2"
+	HTLM     MessageFmt = "HTML"
 )
 
 func ParseMessageFmt(s string) MessageFmt {
@@ -46,7 +46,7 @@ type RenderedMessage struct {
 // }
 
 func (msg *Message) SuccessMessage(packageName, newVersion, changelogs string) RenderedMessage {
-	message := DefaultSuccessTemplate(packageName, newVersion, changelogs)
+	message := defaultSuccessTemplate(packageName, newVersion, changelogs)
 	return RenderedMessage{
 		Message: message.RawMessage,
 		Format:  message.Format,
@@ -54,7 +54,7 @@ func (msg *Message) SuccessMessage(packageName, newVersion, changelogs string) R
 }
 
 func (msg *Message) FailMessage(packageName, reason, errMsg string) RenderedMessage {
-	renderedMessage := DefaultFailTemplate(packageName, reason, errMsg)
+	renderedMessage := defaultFailTemplate(packageName, reason, errMsg)
 	return RenderedMessage{
 		Message: renderedMessage.RawMessage,
 		Format:  renderedMessage.Format,
