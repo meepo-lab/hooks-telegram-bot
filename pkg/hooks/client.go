@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 
 	"github.com/apex/log"
 )
@@ -16,12 +17,14 @@ type TGClient struct {
 }
 
 type TGMessageResponse struct {
-	Ok     bool            `json:"ok"`
-	Result json.RawMessage `json:"result"`
+	Ok          bool            `json:"ok"`
+	Result      json.RawMessage `json:"result"`
+	ErrorCode   int             `json:"error_code"`
+	Description string          `json:"description"`
 }
 
 func (client *TGClient) getUrl() string {
-	return fmt.Sprintf("https://api.telegram.org/client%s", client.token)
+	return fmt.Sprintf("https://api.telegram.org/bot%s", client.token)
 }
 
 func (client *TGClient) GetUpdates() {
@@ -47,10 +50,22 @@ func (client *TGClient) SendMessage(message RenderedMessage) (bool, error) {
 		return false, err
 	}
 	var jsonBody TGMessageResponse
-	if err := json.Unmarshal(body, &response); err != nil {
+	if err := json.Unmarshal(body, &jsonBody); err != nil {
 		return false, err
 	}
-	log.Infof("Response: %v", jsonBody)
-
+	log.Infof("Ok: %v", jsonBody.Ok)
+	if !jsonBody.Ok {
+		log.Infof("Description: %s, ErrorCode: %v", jsonBody.Description, jsonBody.ErrorCode)
+	}
 	return jsonBody.Ok, nil
+}
+
+func EscapeSpecialCharacters(original string) string {
+	chars := []string{"_", "*", "[", "]", "(", ")", "~", "`", ">", "#", "+", "-", "=", "|", "{", "}", ".", "!"}
+	replacers := make([]string, 0)
+	for _, c := range chars {
+		replacers = append(replacers, c)
+		replacers = append(replacers, fmt.Sprintf("\\%s", c))
+	}
+	return strings.NewReplacer(replacers...).Replace(original)
 }

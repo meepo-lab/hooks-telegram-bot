@@ -1,6 +1,9 @@
 package hooks
 
 import (
+	"fmt"
+	"regexp"
+
 	"github.com/apex/log"
 	"github.com/ted-vo/semantic-release/v3/pkg/hooks"
 )
@@ -15,7 +18,9 @@ type TelegramBot struct {
 }
 
 func (bot *TelegramBot) Init(m map[string]string) error {
-	log.Infof("Init %v", m)
+	re := regexp.MustCompile(`token:\S+\w`)
+	initMap := fmt.Sprintf("Init %v", m)
+	log.Infof(re.ReplaceAllString(initMap, "token:****"))
 	projectName := m["project_name"]
 	token := m["token"]
 	chat_id := m["chat_id"]
